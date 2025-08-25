@@ -1,0 +1,44 @@
+name: Deploy project
+on: push
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: |
+          echo "Installing dependencies for second-app"
+          cd second-app
+          npm ci
+      - name: Run tests
+        run: |
+          cd second-app
+          npm run test
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: |
+          echo "Installing dependencies for second-app"
+          cd second-app
+          npm ci
+      - name: Build second-app
+        run: |
+          echo "Building second-app"
+          cd second-app
+          npm run build
+      - name: Deploy second-app
+        run: |
+          echo "Deploying second-app"

@@ -1,9 +1,46 @@
 name: Output information
-on: workflow_dispatch
+on:
+  push:
+    branches:
+      - main
 jobs:
-  info:
+  test:
     runs-on: ubuntu-latest
     steps:
-      - name: Output GitHub context
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Install dependencies
         run: |
-          echo "${{ toJson(github) }}"
+          cd second-app
+          npm ci
+      - name: Lint code
+        run: |
+          cd second-app
+          npm run lint
+      - name: Test code
+        run: |
+          cd second-app
+          npm run test
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: |
+          cd second-app
+          npm ci
+      - name: Build code
+        run: |
+          cd second-app
+          npm run build
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Deploy application
+        run: |
+          echo "Deploying second-app"

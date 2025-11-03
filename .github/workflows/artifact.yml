@@ -11,15 +11,15 @@ jobs:
         uses: actions/checkout@v3
       - name: Install dependencies
         run: |
-          cd second-app
+          cd artifact-app
           npm ci
       - name: Lint code
         run: |
-          cd second-app
+          cd artifact-app
           npm run lint
       - name: Test code
         run: |
-          cd second-app
+          cd artifact-app
           npm run test
   build:
     needs: test
@@ -29,11 +29,11 @@ jobs:
         uses: actions/checkout@v3
       - name: Install dependencies
         run: |
-          cd second-app
+          cd artifact-app
           npm ci
       - name: Build code
         run: |
-          cd second-app
+          cd artifact-app
           npm run build
   deploy:
     needs: build
@@ -43,4 +43,4 @@ jobs:
         uses: actions/checkout@v3
       - name: Deploy application
         run: |
-          echo "Deploying second-app"
+          echo "Deploying artifact-app"

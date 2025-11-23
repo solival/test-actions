@@ -3,14 +3,6 @@ on:
   pull_request:
     types: [opened, edited]
   workflow_dispatch:
-  push:
-    branches:
-      - main
-      - dev-*
-      - feat/**
-    paths-ignore:
-      - 'docs/**'
-      - '*.md'
 jobs:
   pr-info:
     runs-on: ubuntu-latest

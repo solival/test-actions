@@ -24,6 +24,8 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
+    outputs:
+      js-filename: ${{ steps.publish-js-filename.outputs.js-filename }}
     steps:
       - name: Get code
         uses: actions/checkout@v3
@@ -35,6 +37,11 @@ jobs:
         run: |
           cd artifact-app
           npm run build
+      - name: Publish JS filename
+        id: publish-js-filename
+        run: |
+          cd artifact-app
+          find artifact-app/dist/ -type f -name "*.js" -execdir echo 'js-filename={}' >> $GITHUB_OUTPUT ';'
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:

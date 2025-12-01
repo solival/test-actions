@@ -54,7 +54,5 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: artifact-app
-      - name: Deploy application
-        run: |
-          echo "Deploying artifact-app"
-          ls -la .
+      - name: Output filename
+        run: echo "The built JS filename is ${{ needs.build.outputs.js-filename }}"
